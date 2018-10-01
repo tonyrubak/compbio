@@ -1,7 +1,7 @@
-base_idx = Dict('A' => 1, 'G' => 2, 'C' => 3, 'T' => 4)
-PTR_NONE, PTR_GAP1, PTR_GAP2, PTR_BASE = 0:3
+base_idx = Dict{String,Int32}('A' => 1, 'G' => 2, 'C' => 3, 'T' => 4)
+const PTR_NONE, PTR_GAP1, PTR_GAP2, PTR_BASE = 0:3
 
-function seqalign(seq1, seq2, sub_mat, gap_pen)
+function seqalign(seq1, seq2, sub_mat, base_dict, gap_pen)
     n1 = length(seq1)
     n2 = length(seq2)
     F = zeros(Int32, n1+1, n2+1)
@@ -21,7 +21,7 @@ function seqalign(seq1, seq2, sub_mat, gap_pen)
     # seq1 are columns, seq2 are rows
     for i in 2:n2+1
         for j in 2:n1+1
-            idx1, idx2 = base_idx[seq1[j-1]], base_idx[seq2[i-1]]
+            idx1, idx2 = base_dict[seq1[j-1]], base_dict[seq2[i-1]]
             s = sub_mat[idx1][idx2]
             diag = F[j-1,i-1] + s
             vert = F[j,i-1] - gap_pen
