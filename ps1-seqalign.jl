@@ -5,16 +5,16 @@ function seqalign(seq1, seq2, sub_mat, gap_pen)
     n1 = length(seq1)
     n2 = length(seq2)
     F = zeros(Int32, n1+1, n2+1)
-    TB = [[PTR_NONE for j in 0:n2] for i in 0:n1]
+    TB = fill(PTR_NONE, (n1+1, n2+1))
     
     # Initialize the dynamic programming tables for Needleman-Wunsch
     for i in 1:n1
         F[i+1, 1] = 0 - i*gap_pen
-        TB[i+1][1] = PTR_GAP2
+        TB[i+1,1] = PTR_GAP2
     end
     for j in 1:n2
         F[1,j+1] = 0 - j*gap_pen
-        TB[1][j+1] = PTR_GAP1
+        TB[1,j+1] = PTR_GAP1
     end
 
     # Fill in the dynamic programming tables
@@ -29,5 +29,5 @@ function seqalign(seq1, seq2, sub_mat, gap_pen)
             F[j,i] = max(diag, vert, horiz)
         end
     end
-    F
+    TB
 end
