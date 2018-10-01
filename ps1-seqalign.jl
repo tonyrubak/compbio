@@ -27,7 +27,7 @@ function seqalign(seq1, seq2, sub_mat, gap_pen)
             vert = F[j,i-1] - gap_pen
             horiz = F[j-1,i] - gap_pen
             F[j,i] = max(diag, vert, horiz)
-            TB[j,i] = argmax([horiz, vert, diag])
+            TB[j,i] = argmax([vert, horiz, diag])
         end
     end
     F[n1+1, n2+1], F, TB
