@@ -60,3 +60,16 @@ function traceback(seq1, seq2, TB)
     end
     s1, s2
 end
+
+function readseq(filename)
+    seq = []
+    open(filename) do file
+        for l in eachline(file)
+            if (startswith(l, ">"))
+                continue
+            end
+            append!(seq, rstrip(l))
+        end
+    end
+    join(seq,"")
+end
