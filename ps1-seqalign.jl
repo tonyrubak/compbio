@@ -32,3 +32,31 @@ function seqalign(seq1, seq2, sub_mat, gap_pen)
     end
     F[n1+1, n2+1], F, TB
 end
+
+function traceback(seq1, seq2, TB)
+    s1 = ""
+    s2 = ""
+
+    i = length(seq1) + 1
+    j = length(seq2) + 1
+
+    while TB[i,j] != PTR_NONE
+        if (TB[i,j] == PTR_BASE)
+            s1 = seq1[i-1] * s1
+            s2 = seq2[j-1] * s2
+            i = i - 1
+            j = j - 1
+        elseif (TB[i,j] == PTR_GAP1)
+            s1 = "-" * s1
+            s2 = seq2[j-1] * s2
+            j = j - 1
+        elseif (TB[i,j] == PTR_GAP2)
+            s1 = seq1[i-1] * s1
+            s2 = "-" * s2
+            i = i - 1
+        else
+            @assert false
+        end
+    end
+    s1, s2
+end
